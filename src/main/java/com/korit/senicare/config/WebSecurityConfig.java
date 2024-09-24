@@ -54,9 +54,8 @@ public class WebSecurityConfig {
                 .cors(cors -> cors.configurationSource(configurationSource()))
                 // URL 패턴 및 HTTP 메서드에 따라 인증 및 인가 여부 지정
                 .authorizeHttpRequests(request -> request
-                .requestMatchers("/api/v1/auth/**", "/oauth2/callback/*", "/")
-                .permitAll()
-                .anyRequest().authenticated()
+                .requestMatchers("/api/v1/auth/**", "/oauth2/callback/*","/file/*", "/").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(new AuthenticationFailEntryPoint())
