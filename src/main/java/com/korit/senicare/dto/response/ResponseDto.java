@@ -43,6 +43,11 @@ public class ResponseDto {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_USER_ID, ResponseMessage.NO_EXIST_USER_ID);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
+    // 전화번호 확인
+    public static ResponseEntity<ResponseDto> noExistTool() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_TOOL, ResponseMessage.NO_EXIST_TOOL);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
 
     // 인증번호 전송 오류
     public static ResponseEntity<ResponseDto> messageSendFail() {
