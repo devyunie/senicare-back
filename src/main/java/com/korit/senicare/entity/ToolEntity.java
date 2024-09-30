@@ -13,12 +13,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name="tools")
-@Table(name="tools")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name="tools")
+@Table(name="tools")
 public class ToolEntity {
     
     @Id
@@ -28,15 +28,20 @@ public class ToolEntity {
     private String purpose;
     private Integer count;
 
-    public ToolEntity(PostToolRequestDto dto){
+    public ToolEntity(PostToolRequestDto dto) {
         this.name = dto.getName();
         this.purpose = dto.getPurpose();
         this.count = dto.getCount();
     }
 
-    public void patch(PatchToolRequestDto dto){
+    public void patch(PatchToolRequestDto dto) {
         this.name = dto.getName();
         this.purpose = dto.getPurpose();
         this.count = dto.getCount();
     }
+
+    public void decreaseCount(Integer usedCount) {
+        this.count -= usedCount;
+    }
+
 }

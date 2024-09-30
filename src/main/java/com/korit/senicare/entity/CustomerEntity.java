@@ -1,5 +1,6 @@
 package com.korit.senicare.entity;
 
+import com.korit.senicare.dto.request.customer.PatchCustomerRequestDto;
 import com.korit.senicare.dto.request.customer.PostCustomerRequestDto;
 
 import jakarta.persistence.Entity;
@@ -12,12 +13,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity(name="customers")
-@Table(name="customers")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity(name="customers")
+@Table(name="customers")
 public class CustomerEntity {
     
     @Id
@@ -38,4 +39,14 @@ public class CustomerEntity {
         this.address = dto.getAddress();
         this.location = dto.getLocation();
     }
+
+    public void patch(PatchCustomerRequestDto dto) {
+        this.profileImage = dto.getProfileImage();
+        this.name = dto.getName();
+        this.birth = dto.getBirth();
+        this.charger = dto.getCharger();
+        this.address = dto.getAddress();
+        this.location = dto.getLocation();
+    }
+
 }

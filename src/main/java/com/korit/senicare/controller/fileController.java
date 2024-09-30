@@ -14,28 +14,27 @@ import com.korit.senicare.service.FileService;
 
 import lombok.RequiredArgsConstructor;
 
-
 @RestController
 @RequestMapping("/file")
 @RequiredArgsConstructor
-public class fileController {
-
-    private final FileService fileService;
+public class FileController {
     
+    private final FileService fileService;
+
     @PostMapping("/upload")
     public String upload(
         @RequestParam("file") MultipartFile file
-    ){
+    ) {
         String url = fileService.upload(file);
         return url;
     }
 
-    @GetMapping(value="/{fileName}",
-        produces={MediaType.IMAGE_PNG_VALUE,MediaType.IMAGE_JPEG_VALUE})
+    @GetMapping(value="/{fileName}", produces={MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_JPEG_VALUE})
     public Resource getImageFile(
         @PathVariable("fileName") String fileName
-    ){
-        Resource resource = fileService.getfile(fileName);
+    ) {
+        Resource resource = fileService.getFile(fileName);
         return resource;
     }
+
 }

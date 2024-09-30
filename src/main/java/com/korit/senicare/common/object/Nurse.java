@@ -13,19 +13,20 @@ public class Nurse {
     private String name;
     private String telNumber;
 
-    private Nurse(NurseEntity nurseEntity){
+    private Nurse (NurseEntity nurseEntity) {
         this.nurseId = nurseEntity.getUserId();
         this.name = nurseEntity.getName();
         this.telNumber = nurseEntity.getTelNumber();
     }
 
-    public static List<Nurse> getList(List<NurseEntity> nurseEntities){
+    public static List<Nurse> getList(List<NurseEntity> nurseEntities) {
+
         List<Nurse> nurses = new ArrayList<>();
-        for(NurseEntity nurseEntity : nurseEntities){
+        for (NurseEntity nurseEntity: nurseEntities) {
             Nurse nurse = new Nurse(nurseEntity);
             nurses.add(nurse);
         }
-
         return nurses;
+
     }
 }

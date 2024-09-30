@@ -29,7 +29,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
-// Spring Web 보안설정
+// Spring Web 보안 설정
 @Configurable
 @Configuration
 @EnableWebSecurity
@@ -42,33 +42,35 @@ public class WebSecurityConfig {
 
         @Bean
         protected SecurityFilterChain configure(HttpSecurity security) throws Exception {
+
                 security
-                // Basic 인증 방식 미사용
-                .httpBasic(HttpBasicConfigurer::disable)
-                // session 미사용(유지 X)
-                .sessionManagement(sessionManagement -> sessionManagement
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                // CSRF 취약점 대비 미지정
-                .csrf(CsrfConfigurer::disable)
-                // CORS 정책 설정
-                .cors(cors -> cors.configurationSource(configurationSource()))
-                // URL 패턴 및 HTTP 메서드에 따라 인증 및 인가 여부 지정
-                .authorizeHttpRequests(request -> request
-                .requestMatchers("/api/v1/auth/**", "/oauth2/callback/*","/file/*", "/").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .exceptionHandling(exception -> exception
-                        .authenticationEntryPoint(new AuthenticationFailEntryPoint())
-                )
-                // oAuth2 로그인 적용
-                .oauth2Login(oauth2 -> oauth2
-                .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
-                .authorizationEndpoint(endpoint -> endpoint
-                .baseUri("/api/v1/auth/sns-sign-in"))
-                .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2Service))
-                .successHandler(oAuth2SuccessHandler))
-                // 필터 등록
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                                // basic 인증 방식 미사용
+                                .httpBasic(HttpBasicConfigurer::disable)
+                                // session 미사용 (유지 X)
+                                .sessionManagement(sessionManagement -> sessionManagement
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                // CSRF 취약점 대비 미지정
+                                .csrf(CsrfConfigurer::disable)
+                                // CORS 정책 설정
+                                .cors(cors -> cors.configurationSource(configurationSource()))
+                                // URL 패턴 및 HTTP 메서드에 따라 인증 및 인가 여부 지정
+                                .authorizeHttpRequests(request -> request
+                                                .requestMatchers("/api/v1/auth/**", "/oauth2/callback/*", "/file/*",
+                                                                "/")
+                                                .permitAll()
+                                                .anyRequest().authenticated())
+                                // 인증 및 인가 작업중 발생하는 예외 처리
+                                .exceptionHandling(exception -> exception
+                                                .authenticationEntryPoint(new AuthenticationFailEntryPoint()))
+                                // oAuth2 로그인 적용
+                                .oauth2Login(oauth2 -> oauth2
+                                                .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
+                                                .authorizationEndpoint(endpoint -> endpoint
+                                                                .baseUri("/api/v1/auth/sns-sign-in"))
+                                                .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2Service))
+                                                .successHandler(oAuth2SuccessHandler))
+                                // 필터 등록
+                                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return security.build();
         }
@@ -85,6 +87,7 @@ public class WebSecurityConfig {
                 source.registerCorsConfiguration("/**", configuration);
 
                 return source;
+
         }
 
 }
@@ -98,8 +101,9 @@ class AuthenticationFailEntryPoint implements AuthenticationEntryPoint {
                 authException.printStackTrace();
                 response.setContentType("application/json");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                response.getWriter().write("{ \"code\": \""+ResponseCode.AUTHENTICATION_FAIL +"\", \"message\": \""+ResponseMessage.AUTHENTICATION_FAIL+"\" }"
-                );
+                response.getWriter().write(
+                                "{ \"code\": \"" + ResponseCode.AUTHENTICATION_FAIL + "\", \"message\": \""
+                                                + ResponseMessage.AUTHENTICATION_FAIL + "\" }");
         }
-        
+
 }
