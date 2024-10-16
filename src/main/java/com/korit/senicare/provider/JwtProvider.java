@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;;
+import io.jsonwebtoken.security.Keys;
 
 // class: JWT 생성 및 검증 기능 제공자
 // - jwt 암호화 알고리즘 : HS256
